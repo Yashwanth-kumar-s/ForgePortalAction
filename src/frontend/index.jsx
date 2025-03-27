@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import ForgeReconciler, { Text, Select, options } from '@forge/react';
+import ForgeReconciler, { Text, Select } from '@forge/react';
 import { invoke } from '@forge/bridge';
 
 const PortalDropdown = () => {
@@ -7,28 +7,39 @@ const PortalDropdown = () => {
   const [selectedValue, setSelectedValue] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(async () => {
-    try {
-      const users = await invoke("getUsers", {});
-      console.log("Response from getUsers:", users);
-      setDropdownOptions(users);
-    } catch (error) {
-      console.error("Error fetching users:", error);
-    } finally {
-      setIsLoading(false);
-    }
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const users = await invoke("getUsers", {});
+        console.log("Response from getUsers:", users);
+        setDropdownOptions(users);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchUsers();
   }, []);
 
-  const handleChange = (value) => {
+  const handleChange = async (value) => {
     setSelectedValue(value);
     console.log('Selected value:', value);
+
+    try {
+      await invoke("updatePartnerAssignee", { selectedUser: value });
+      console.log("Partner Assignee updated successfully.");
+    } catch (error) {
+      console.error("Error updating Partner Assignee:", error);
+    }
   };
- console.log('DropdownOptions:', dropdownOptions);
+
   return (
     <>
       <Text>Select a User:</Text>
       <Select
-        className="custom-dropdown" // Add a custom class
+        className="custom-dropdown"
         label="Select a Partner"
         isLoading={isLoading}
         onChange={handleChange}
@@ -36,7 +47,6 @@ const PortalDropdown = () => {
         options={dropdownOptions}
       />
     </>
-
   );
 };
 
