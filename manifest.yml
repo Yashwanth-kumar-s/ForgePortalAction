@@ -1,0 +1,51 @@
+modules:
+  jiraServiceManagement:portalRequestViewAction:
+    - key: partnerportaledit1-hello-world-portal-request-view-action
+      render: native
+      resource: main
+      resolver:
+        function: resolvers
+      title: Partner Dropdown1
+  function:
+    - key: resolvers
+      handler: index.getUsers
+resources:
+  - key: main
+    path: src/frontend/index.jsx
+app:
+  runtime:
+    name: nodejs22.x
+  id: ari:cloud:ecosystem::app/dcb40c92-22df-4031-aa00-82ff01e3e1f0
+
+permissions:
+  scopes:
+    - write:jira-work
+    - read:jira-work
+    - manage:jira-configuration
+    - read:organization:jira-service-management
+    - read:organization.user:jira-service-management
+    - read:field:jira
+    - read:avatar:jira
+    - read:project-category:jira
+    - read:project:jira
+    - manage:jira-project
+    - read:field-configuration:jira
+    - read:issue-meta:jira
+    - read:issue-security-level:jira
+    - read:issue.vote:jira
+    - read:issue.changelog:jira
+    - read:issue:jira
+    - read:status:jira
+    - read:user:jira
+    - read:custom-field-contextual-configuration:jira
+    - write:field:jira
+    - read:field.option:jira
+    - write:field.option:jira
+    - read:webhook:jira
+    - manage:servicedesk-customer
+    - read:customer:jira-service-management
+    - write:customer:jira-service-management
+    - read:organization:jira-service-management
+    - read:organization.user:jira-service-management
+    - write:organization.user:jira-service-management
+    - read:servicedesk.customer:jira-service-management

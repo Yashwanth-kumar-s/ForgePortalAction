@@ -1,0 +1,1 @@
+export { getUsers, handler } from './resolvers';
